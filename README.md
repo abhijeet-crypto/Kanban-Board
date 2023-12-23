@@ -41,12 +41,15 @@ Before you begin, ensure you have the following installed on your machine:
 
 2. run - npm i
    
-3. run npm start 
+3. run - npm start 
 
 
 ## Features
 
-Responsive, Interactive UI, Multiple Grouping Operations, Light and Dark Mode 
+1. Responsive
+2. Interactive UI
+3. Multiple Grouping Operations
+4. Light and Dark Mode 
 
 
 ## Usage
