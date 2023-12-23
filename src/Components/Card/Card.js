@@ -12,6 +12,14 @@ const Card = ( props ) => {
         "Cancelled": <img src="https://cdn-icons-png.flaticon.com/128/1008/1008968.png" className='logo-pic' alt="Cancelled" />
     };
 
+    const priorityReference = {
+      "0":process.env.PUBLIC_URL + "/5.jpg",
+      "1":process.env.PUBLIC_URL + "/l.jpg",
+      "2":process.env.PUBLIC_URL + "/m.jpg",
+      "3":process.env.PUBLIC_URL + "/l.jpg",
+      "4":"https://cdn-icons-png.flaticon.com/128/6324/6324052.png"
+    }
+
   const { ticket, users } = props;
 
   const getUserById = (userId) => {
@@ -63,7 +71,7 @@ const Card = ( props ) => {
       <div className='card-bottom'>
         {props.groupBy !== 'priority' && (
           <div className='component-1 pointer'>
-            <MoreHorizontal className='icon' />
+            <img src={priorityReference[props.ticket.priority]} className='icon'/>
           </div>
         )}
         <div className='component-2 pointer'>
