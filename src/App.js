@@ -6,13 +6,13 @@ import axios from 'axios';
 
 
 function App() {
-  // const initialGroupingOption = localStorage.getItem('groupBy') || "status";
-  // const initialSortingOption = localStorage.getItem('sortBy') || "priority";
+  const initialGroupingOption = localStorage.getItem('groupBy') || "status";
+  const initialSortingOption = localStorage.getItem('sortBy') || "priority";
 
-  // const [tickets, setTickets] = useState([]);
+  const [tickets, setTickets] = useState([]);
   const [users, setUsers] = useState([]);
-  // const [groupingOption, setGroupingOption] = useState(initialGroupingOption);
-  // const [sortingOption, setSortingOption] = useState(initialSortingOption);
+  const [groupingOption, setGroupingOption] = useState(initialGroupingOption);
+  const [sortingOption, setSortingOption] = useState(initialSortingOption);
 
   const priorityLabels={
     0:(
@@ -44,10 +44,10 @@ function App() {
   useEffect(()=>{
     getDetails();
   },[]);
-  // useEffect(()=>{
-  //   localStorage.setItem('groupBy',groupingOption);
-  //   localStorage.setItem('sortBy',sortingOption);
-  // },[groupingOption,sortingOption]);
+  useEffect(()=>{
+    localStorage.setItem('groupBy',groupingOption);
+    localStorage.setItem('sortBy',sortingOption);
+  },[groupingOption,sortingOption]);
 
   function getRandomColor(){
     const letters = '0123456789ABCDEF';
@@ -114,6 +114,29 @@ function App() {
       return userStatus;
     }
     return organizeData;
+  }
+
+  // sorting 
+
+  const sortByPriority=(tickets)=>{
+    return [...tickets].sort((a,b)=>b.priority-a.priority);
+  };
+
+  const sortByTitle=(tickets)=>{
+    return [...tickets].sort((a,b)=>a.title.localeCompare(b.title));
+  };
+
+  const sortedTickets=(tickets)=>{
+    const sortingFuntions={
+      priority: sortByPriority,
+      title: sortByTitle
+    };
+    const sortingFuntion=sortingFuntions[sortingOption];
+
+    if(sortingFuntion){
+      return sortingFuntion(tickets);
+    }
+    return tickets;
   }
 
   return (
