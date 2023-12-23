@@ -14,6 +14,8 @@ function App() {
   const [groupingOption, setGroupingOption] = useState(initialGroupingOption);
   const [sortingOption, setSortingOption] = useState(initialSortingOption);
 
+  //  set priority lebel for the makeing user level
+
   const priorityLabels = {
     0:(
       <div className="user-label">
@@ -42,6 +44,8 @@ function App() {
     )
   };
 
+  //  Extract firstname lastname firstletter and lastletter of the name for making the the user lebel 
+
   const userLabels=users.reduce((labels, user) => {
     const nameParts=user.name.split(' ');
     const firstName=nameParts[0];
@@ -68,6 +72,8 @@ function App() {
     return labels;
   }, {});
 
+  //  Generating the random color for the backgroung of the user level 
+
   function getRandomColor() {
     const letters='0123456789ABCDEF';
     let color='#';
@@ -86,6 +92,7 @@ function App() {
     localStorage.setItem('sortBy',sortingOption);
   }, [groupingOption, sortingOption])
 
+  // Fetching the data form the Api given 
   async function getDetails() {
     try {
       const { data } = await axios.get("https://tfyincvdrafxe7ut2ziwuhe5cm0xvsdu.lambda-url.ap-south-1.on.aws/ticketAndUsers");
@@ -98,7 +105,7 @@ function App() {
       console.error("Error fetching data:", error);
     }
   }
-
+//  Mapping all the user fo there respective status priority and user
   const organizeTickets = () => {
     const organizedData = {};
   
@@ -155,6 +162,8 @@ function App() {
     return organizedData;
   };
 
+  // Sort the tickets in the given conditions 
+
   const sortByPriority = (tickets) => {
     return [...tickets].sort((a, b) => b.priority - a.priority);
   };
@@ -188,6 +197,8 @@ function App() {
 
   const boards = organizeTickets();
 
+  // Main funtion 
+  
   return (
     <div className="app-container">
       <div className="app-navbar">
