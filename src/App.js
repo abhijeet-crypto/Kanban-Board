@@ -68,6 +68,54 @@ function App() {
     }
   }
 
+  const organizeTickets=()=>{
+    const organizeData={};
+    if(groupingOption==='status'){
+      const ticketStatus={
+        'Backlog':[],
+        "Todo":[],
+        "In progress":[],
+        "Done":[],
+        "Cancelled":[]
+      };
+      tickets.forEach(ticket=> {
+        if(ticketStatus[ticket.status]){
+          ticketStatus[ticket.status].push(ticket);
+        }  
+      });
+      return ticketStatus;
+    }else if(groupingOption==='priority'){
+      const priorityStatus={
+        0:[],
+        1:[],
+        2:[],
+        3:[],
+        4:[]
+      };
+      tickets.forEach(ticket=>{
+        if(priorityStatus[ticket.priority]){
+          priorityStatus[ticket.priority].push(ticket);
+        }
+      });
+      return priorityStatus
+    }else if(groupingOption==='user'){
+      const userStatus={
+        "usr-1":[],
+        "usr-2":[],
+        "usr-3":[],
+        "usr-4":[],
+        "usr-5":[]
+      };
+      tickets.forEach(ticket=>{
+        if(userStatus[ticket.userId]){
+          userStatus[ticket.userId].push(ticket);
+        }
+      });
+      return userStatus;
+    }
+    return organizeData;
+  }
+
   return (
     <div className='app-container'>
       {/* <div className="navbar">
