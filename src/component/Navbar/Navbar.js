@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import './Navbar.css'
+import DarkMode from '../DarkMode/DarkMode';
 import {ChevronUp, ChevronDown} from 'react-feather';
 
 const Navbar = ({sortingOption, onSortingChange,groupingOption,onGroupingChange}) => {
@@ -28,7 +29,9 @@ const Navbar = ({sortingOption, onSortingChange,groupingOption,onGroupingChange}
                     </Dropdownoption>
                 </div>
             )}
-
+        </div>
+        <div className='toggle'>
+            <DarkMode></DarkMode>
         </div>
     </div>
   );

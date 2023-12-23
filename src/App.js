@@ -139,9 +139,19 @@ function App() {
     return tickets;
   }
 
+  const boards=organizeTickets();
+
+  const handleSortingChange=(event)=>{
+    setSortingOption(event.target.value);
+  }
+
+  const handleGroupingChange=(event)=>{
+    setGroupingOption(event.target.value);
+  }
+
   return (
     <div className='app-container'>
-      {/* <div className="navbar">
+      <div className="navbar">
         <nav>
           <Navbar sortingOption={sortingOption}
            onSortingChange={handleSortingChange}
@@ -150,7 +160,7 @@ function App() {
           
         </nav>
         
-      </div> */}
+      </div>
       HII
     </div>
   );
