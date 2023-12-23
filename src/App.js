@@ -1,7 +1,8 @@
 
+import React, {useEffect,useState} from 'react'
 import './App.css';
 import Navbar from './component/Navbar/Navbar';
-import React, {useEffect,useState} from 'react'
+import Board from './component/Board/Board';
 import axios from 'axios';
 
 
@@ -17,22 +18,22 @@ function App() {
   const priorityLabels={
     0:(
       <div className='user-label'>
-        <img src={'process.env.PUBLIC_URL'+"/5.jpg"} className='user-pic' alt='No Priority'/> No Priority
+        <img src={process.env.PUBLIC_URL+"/5.jpg"} className='user-pic' alt='No Priority'/> No Priority
       </div>
     ),
     1:(
       <div className='user-label'>
-        <img src={'process.env.PUBLIC_URL'+"/l.jpg"} className='user-pic' alt='Low'/> Low
+        <img src={process.env.PUBLIC_URL+"/l.jpg"} className='user-pic' alt='Low'/> Low
       </div>
     ),
     2:(
       <div className='user-label'>
-        <img src={'process.env.PUBLIC_URL'+"/m.jpg"} className='user-pic' alt='Medium'/> Medium
+        <img src={process.env.PUBLIC_URL+"/m.jpg"} className='user-pic' alt='Medium'/> Medium
       </div>
     ),
     3:(
       <div className='user-label'>
-        <img src={'process.env.PUBLIC_URL'+"/h.jpg"} className='user-pic' alt='High'/> High
+        <img src={process.env.PUBLIC_URL+"/h.jpg"} className='user-pic' alt='High'/> High
       </div>
     ),
     4:(
@@ -41,14 +42,26 @@ function App() {
       </div>
     ),
   };
-  useEffect(()=>{
-    getDetails();
-  },[]);
-  useEffect(()=>{
-    localStorage.setItem('groupBy',groupingOption);
-    localStorage.setItem('sortBy',sortingOption);
-  },[groupingOption,sortingOption]);
+  const userLabels=users.reduce((labels,user)=>{
+    const nameParts=user.name.split(' ');
+    const firstName=nameParts[0];
+    const lastName=nameParts.length>1?nameParts[1]:'';
+    const firstLetterFirstName=firstName.charAt(0).toUpperCase();
+    const firstLetterLastName=lastName.charAt(0).toUpperCase();
 
+    const randomColor=getRandomColor();
+
+    labels[user.id]=(
+      <div className='user-label'>
+        <div className='user-pic' style={{backgroundColor:randomColor,}}>
+          {firstLetterFirstName}
+          {lastName && `${firstLetterLastName}`}
+        </div>
+        {user.name}
+      </div>
+    );
+    return labels;
+  },{});
   function getRandomColor(){
     const letters = '0123456789ABCDEF';
     let color = '#';
@@ -57,10 +70,23 @@ function App() {
      }
     return color;
   }
+  useEffect(()=>{
+    getDetails();
+  },[]);
+  useEffect(()=>{
+    localStorage.setItem('groupBy',groupingOption);
+    localStorage.setItem('sortBy',sortingOption);
+  },[groupingOption,sortingOption]);
+
+
 
   async function getDetails(){
     try{
       const{data}=await axios.get("https://tfyincvdrafxe7ut2ziwuhe5cm0xvsdu.lambda-url.ap-south-1.on.aws/ticketAndUsers")
+      const updatedTickets=data.tickets.map((ticket)=>{
+        return ticket;
+      })
+      setTickets(updatedTickets);
       setUsers(data.users);
       // console.log(data);
     }catch(error){
@@ -129,7 +155,7 @@ function App() {
   const sortedTickets=(tickets)=>{
     const sortingFuntions={
       priority: sortByPriority,
-      title: sortByTitle
+      title: sortByTitle,
     };
     const sortingFuntion=sortingFuntions[sortingOption];
 
@@ -151,7 +177,7 @@ function App() {
 
   return (
     <div className='app-container'>
-      <div className="navbar">
+      <div className="app-navbar">
         <nav>
           <Navbar sortingOption={sortingOption}
            onSortingChange={handleSortingChange}
@@ -161,7 +187,21 @@ function App() {
         </nav>
         
       </div>
-      HII
+      <div className='app-outer-container'>
+        <div className='app-board'>
+          {Object.keys(boards).map(boardkey=>(
+            <Board 
+            key={boardkey}
+            title={groupingOption==='priority' ? priorityLabels[boardkey] : groupingOption==='user' ? userLabels[boardkey] : boardkey}
+            count={boards[boardkey].length}
+            tickets={sortedTickets(boards[boardkey])}
+            sortingOption={sortingOption}
+            groupingOption={groupingOption}
+            users={users}
+            ></Board>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }

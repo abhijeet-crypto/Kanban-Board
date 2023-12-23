@@ -10,7 +10,7 @@ const Navbar = ({sortingOption, onSortingChange,groupingOption,onGroupingChange}
     };
   return (
     <div className='navbar'>
-        <div className='dd-button'>
+        <div className='nav-bar'>
             <div className='drop-down' onClick={toggleDropdown}>
                 <img src='https://cdn-icons-png.flaticon.com/128/8017/8017760.png' className='icon' alt='Menu'></img>
                 <p className='bold'>Display</p>
@@ -18,15 +18,15 @@ const Navbar = ({sortingOption, onSortingChange,groupingOption,onGroupingChange}
             </div>
             {dropdownOpen && (
                 <div className='dropdown-options'>
-                    <Dropdownoption label="Grouping" value={groupingOption} onchange={onGroupingChange}>
+                    <DropdownOption label="Grouping" value={groupingOption} onChange={onGroupingChange}>
                         <option value='status'>Status</option>
                         <option value='user'> User</option>
                         <option value='priority'> Priority </option>
-                    </Dropdownoption>
-                    <Dropdownoption label='Ordering' value={sortingOption} onchange={onSortingChange}>
+                    </DropdownOption>
+                    <DropdownOption label='Ordering' value={sortingOption} onChange={onSortingChange}>
                         <option value="priority"> Priority</option>
                         <option value='title'>Title</option>
-                    </Dropdownoption>
+                    </DropdownOption>
                 </div>
             )}
         </div>
@@ -37,11 +37,11 @@ const Navbar = ({sortingOption, onSortingChange,groupingOption,onGroupingChange}
   );
 };
 
-const Dropdownoption=({label,value,onchange,children})=>{
+const DropdownOption=({label,value,onChange,children})=>{
     return (
         <div className='dd-option'>
             <label>{label}</label>
-            <select value={value} onchange={onchange} > {children} </select>
+            <select value={value} onChange={onChange} > {children} </select>
         </div>
     );
 };
