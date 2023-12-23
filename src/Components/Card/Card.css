@@ -93,3 +93,7 @@
     margin-left: 2px;
     margin-right: 2px;
 }
+
+.star{
+    min-width: 2px;
+}
